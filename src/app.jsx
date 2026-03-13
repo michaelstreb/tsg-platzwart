@@ -163,7 +163,7 @@ export function App() {
         onNewBooking={() => { setEditBooking(null); setFormDefaults(null); setShowForm(true); }}
       />
 
-      {view !== 'list' && view !== 'teams' && (
+      {view !== 'list' && view !== 'teams' && view !== 'dashboard' && (
         <>
           <FacilityFilter
             facilities={facilities}
