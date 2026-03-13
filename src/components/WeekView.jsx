@@ -98,11 +98,13 @@ export function WeekView({ facilities, bookings, teams, selectedDate, onSelectBo
         {/* Zeitspalte */}
         <div class="week-time-col">
           <div class="week-header-cell" />
-          {HOURS.map(h => (
-            <div key={h} class="week-time-label" style={{ top: `${((h - HOUR_START) / (HOUR_END - HOUR_START)) * 100}%` }}>
-              {String(h).padStart(2, '0')}:00
-            </div>
-          ))}
+          <div class="week-time-body">
+            {HOURS.map(h => (
+              <div key={h} class="week-time-label" style={{ top: `${((h - HOUR_START) / (HOUR_END - HOUR_START)) * 100}%` }}>
+                {String(h).padStart(2, '0')}:00
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Tagesspalten */}

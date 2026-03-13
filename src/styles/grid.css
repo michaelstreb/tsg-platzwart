@@ -56,6 +56,11 @@
   cursor: cell;
 }
 
+.week-time-body {
+  position: relative;
+  height: 560px; /* muss mit week-day-body übereinstimmen */
+}
+
 .week-time-label {
   position: absolute;
   font-size: 0.7rem;
