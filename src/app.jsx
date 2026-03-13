@@ -12,6 +12,7 @@ import { BookingList } from './components/BookingList.jsx';
 import { AdminLogin } from './components/AdminLogin.jsx';
 import { FacilityFilter } from './components/FacilityFilter.jsx';
 import { TeamManager } from './components/TeamManager.jsx';
+import { TeamLegend } from './components/TeamLegend.jsx';
 
 export function App() {
   const [facilities, setFacilities] = useState([]);
@@ -65,6 +66,19 @@ export function App() {
   }, []);
 
   useEffect(() => { loadData(); }, [loadData]);
+
+  // Auto-refresh every 5 minutes + on tab visibility change
+  useEffect(() => {
+    const id = setInterval(loadData, 300000);
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') loadData();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, [loadData]);
 
   const toggleFacility = (id) => {
     setHiddenFacilities(prev => {
@@ -150,11 +164,14 @@ export function App() {
       />
 
       {view !== 'list' && view !== 'teams' && (
-        <FacilityFilter
-          facilities={facilities}
-          hiddenFacilities={hiddenFacilities}
-          onToggle={toggleFacility}
-        />
+        <>
+          <FacilityFilter
+            facilities={facilities}
+            hiddenFacilities={hiddenFacilities}
+            onToggle={toggleFacility}
+          />
+          <TeamLegend bookings={bookings} teams={teams} />
+        </>
       )}
 
       {error && <div class="error-banner">{error}</div>}

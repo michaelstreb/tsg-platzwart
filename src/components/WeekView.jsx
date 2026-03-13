@@ -1,4 +1,4 @@
-import { useMemo } from 'preact/hooks';
+import { useMemo, useState, useEffect, useRef } from 'preact/hooks';
 import { BookingBlock } from './BookingBlock.jsx';
 import { expandRecurrence } from '../models/recurrence.js';
 import { timeToMinutes, minutesToTime } from '../models/booking.js';
@@ -23,6 +23,31 @@ function getWeekDays(date) {
 
 export function WeekView({ facilities, bookings, teams, selectedDate, onSelectBooking, admin, onCreateBooking }) {
   const weekDays = useMemo(() => getWeekDays(selectedDate), [selectedDate]);
+  const [now, setNow] = useState(new Date());
+  const nowLineRef = useRef(null);
+  const scrolledRef = useRef(false);
+
+  // Update now every 60s
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Auto-scroll to now-line on mount / date change
+  useEffect(() => {
+    scrolledRef.current = false;
+  }, [selectedDate]);
+
+  useEffect(() => {
+    if (!scrolledRef.current && nowLineRef.current) {
+      nowLineRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      scrolledRef.current = true;
+    }
+  });
+
+  const todayIndex = weekDays.findIndex(d => isSameDay(d, now));
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  const nowPercent = ((nowMinutes - HOUR_START * 60) / ((HOUR_END - HOUR_START) * 60)) * 100;
 
   const weekBookings = useMemo(() => {
     const weekStart = weekDays[0];
@@ -103,6 +128,15 @@ export function WeekView({ facilities, bookings, teams, selectedDate, onSelectBo
                     style={{ top: `${((h - HOUR_START) / (HOUR_END - HOUR_START)) * 100}%` }}
                   />
                 ))}
+
+                {/* Now-Line */}
+                {di === todayIndex && nowPercent >= 0 && nowPercent <= 100 && (
+                  <div
+                    ref={nowLineRef}
+                    class="week-now-line"
+                    style={{ top: `${nowPercent}%` }}
+                  />
+                )}
 
                 {/* Buchungsblöcke */}
                 {dayBookings.map(b => {

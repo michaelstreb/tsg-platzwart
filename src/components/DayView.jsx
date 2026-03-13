@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'preact/hooks';
+import { useMemo, useRef, useState, useEffect } from 'preact/hooks';
 import { BookingBlock } from './BookingBlock.jsx';
 import { expandRecurrence } from '../models/recurrence.js';
 import { timeToMinutes } from '../models/booking.js';
@@ -7,8 +7,43 @@ const HOUR_START = 8;
 const HOUR_END = 22;
 const HOURS = Array.from({ length: HOUR_END - HOUR_START }, (_, i) => HOUR_START + i);
 
+function isSameDay(a, b) {
+  return a.getDate() === b.getDate() &&
+    a.getMonth() === b.getMonth() &&
+    a.getFullYear() === b.getFullYear();
+}
+
+const FACILITY_TYPE_LABELS = {
+  grass: 'Rasen',
+  allweather: 'Kunstrasen',
+  hall: 'Halle',
+};
+
 export function DayView({ facilities, bookings, teams, selectedDate, onSelectBooking, onDateChange }) {
   const touchStartX = useRef(null);
+  const [now, setNow] = useState(new Date());
+  const nowLineRef = useRef(null);
+  const scrolledRef = useRef(false);
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    scrolledRef.current = false;
+  }, [selectedDate]);
+
+  useEffect(() => {
+    if (!scrolledRef.current && nowLineRef.current) {
+      nowLineRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      scrolledRef.current = true;
+    }
+  });
+
+  const isToday = isSameDay(selectedDate, now);
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  const nowPercent = ((nowMinutes - HOUR_START * 60) / ((HOUR_END - HOUR_START) * 60)) * 100;
 
   const dayBookings = useMemo(() => {
     const dayStart = new Date(selectedDate);
@@ -59,6 +94,9 @@ export function DayView({ facilities, bookings, teams, selectedDate, onSelectBoo
         <div key={facility.id} class="day-facility">
           <div class="day-facility-header" style={{ borderLeftColor: facility.color }}>
             {facility.name}
+            {FACILITY_TYPE_LABELS[facility.type] && (
+              <span class="day-facility-type">{FACILITY_TYPE_LABELS[facility.type]}</span>
+            )}
           </div>
           <div class="day-facility-body">
             {/* Stundenlinien */}
@@ -67,6 +105,15 @@ export function DayView({ facilities, bookings, teams, selectedDate, onSelectBoo
                 <span class="day-hour-label">{String(h).padStart(2, '0')}:00</span>
               </div>
             ))}
+
+            {/* Now-Line */}
+            {isToday && nowPercent >= 0 && nowPercent <= 100 && (
+              <div
+                ref={nowLineRef}
+                class="day-now-line"
+                style={{ top: `${nowPercent}%` }}
+              />
+            )}
 
             {/* Buchungsblöcke */}
             {fBookings.map(b => {

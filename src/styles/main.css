@@ -195,11 +195,44 @@ body {
   background: var(--color-bg);
 }
 
+.filter-chip-type {
+  font-size: 0.65rem;
+  color: var(--color-text-secondary);
+  opacity: 0.8;
+}
+
 .filter-chip-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--chip-color, #999);
+}
+
+/* Team Legend */
+.team-legend {
+  display: flex;
+  gap: 8px;
+  padding: 6px 16px;
+  overflow-x: auto;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  -webkit-overflow-scrolling: touch;
+}
+
+.team-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  color: var(--color-text-secondary);
+}
+
+.team-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 /* Main Content */
