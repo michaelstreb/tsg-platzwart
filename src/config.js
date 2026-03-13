@@ -12,7 +12,7 @@ export const CONFIG = {
   // Fine-grained PAT mit contents:write (wird beim Build eingesetzt)
   githubToken: import.meta.env.VITE_GITHUB_TOKEN || '',
 
-  // --- Nextcloud (Admin-Authentifizierung) ---
-  // Nextcloud Base-URL, z.B. 'https://cloud.meinverein.de'
-  nextcloudUrl: 'https://nx.fussball.tsg08-roth.de',
+  // --- Admin-Authentifizierung ---
+  // SHA-256-Hash des Admin-Passworts (wird beim Build eingesetzt)
+  adminPasswordHash: import.meta.env.VITE_ADMIN_PASSWORD_HASH || '',
 };

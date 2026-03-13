@@ -1,16 +1,15 @@
 import { useState } from 'preact/hooks';
-import { setCredentials, verifyNextcloudLogin } from '../api/auth.js';
+import { setCredentials, verifyPassword } from '../api/auth.js';
 
 export function AdminLogin({ onLogin, onClose }) {
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!username || !password) {
-      setError('Bitte Benutzername und Passwort eingeben.');
+    if (!password) {
+      setError('Bitte Passwort eingeben.');
       return;
     }
 
@@ -18,11 +17,11 @@ export function AdminLogin({ onLogin, onClose }) {
     setError('');
 
     try {
-      await verifyNextcloudLogin(username, password);
-      setCredentials({ username });
+      await verifyPassword(password);
+      setCredentials({ admin: true });
       onLogin();
     } catch {
-      setError('Anmeldung fehlgeschlagen. Bitte Zugangsdaten prüfen.');
+      setError('Falsches Passwort.');
     } finally {
       setLoading(false);
     }
@@ -36,22 +35,7 @@ export function AdminLogin({ onLogin, onClose }) {
           <button class="btn-icon drawer-close" onClick={onClose}>&times;</button>
         </div>
         <form class="modal-body" onSubmit={handleSubmit}>
-          <p class="login-hint">
-            Mit Nextcloud-Benutzername und Passwort anmelden.
-          </p>
-
           {error && <div class="form-error">{error}</div>}
-
-          <label class="form-field">
-            <span class="form-label">Benutzername</span>
-            <input
-              type="text"
-              value={username}
-              onInput={(e) => setUsername(e.target.value)}
-              autocomplete="username"
-              class="form-input"
-            />
-          </label>
 
           <label class="form-field">
             <span class="form-label">Passwort</span>

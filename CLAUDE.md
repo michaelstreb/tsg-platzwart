@@ -18,7 +18,7 @@ Preact + Vite SPA, gehostet auf GitHub Pages, Daten in `public/bookings.json` (p
 
 - **Lesen:** App lädt `bookings.json` und `facilities.json` direkt per fetch (statisch von GitHub Pages)
 - **Schreiben:** GitHub Contents API mit PAT (Token aus `VITE_GITHUB_TOKEN` env var, wird beim Build eingebettet)
-- **Auth:** Admin-Login prüft Credentials gegen Nextcloud OCS API — nur zur Zugangs-Kontrolle, nicht für Datenzugriff
+- **Auth:** Admin-Login prüft Passwort client-seitig gegen SHA-256-Hash (aus `VITE_ADMIN_PASSWORD_HASH` env var, wird beim Build eingebettet)
 - **Teams:** In `localStorage` gespeichert (`belegung_teams`), nicht serverseitig
 
 ## Konventionen
@@ -33,9 +33,9 @@ Preact + Vite SPA, gehostet auf GitHub Pages, Daten in `public/bookings.json` (p
 
 ## Wichtige Dateien
 
-- `src/config.js` — Zentrale Konfiguration (GitHub-Repo, Nextcloud-URL)
+- `src/config.js` — Zentrale Konfiguration (GitHub-Repo, Admin-Passwort-Hash)
 - `src/api/webdav.js` — Lesen/Schreiben (trotz Name: GitHub API, nicht WebDAV)
-- `src/api/auth.js` — Nextcloud-Login-Verifizierung
+- `src/api/auth.js` — Admin-Passwort-Verifizierung (SHA-256)
 - `src/models/booking.js` — Konflikterkennung mit Quadranten-Normalisierung
 - `src/models/teams.js` — Team-Datenmodell mit active-Flag und localStorage
 - `src/components/BookingForm.jsx` — Komplexeste Komponente (Konflikte, Wochentage, Feldteile)

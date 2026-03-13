@@ -25,26 +25,27 @@ export function isAdmin() {
 }
 
 /**
- * Prüft Nextcloud-Zugangsdaten über den OCS-API-Endpoint.
- * Wirft einen Fehler wenn die Anmeldung fehlschlägt.
+ * Hasht einen String mit SHA-256 und gibt den Hex-String zurück.
  */
-export async function verifyNextcloudLogin(username, password) {
-  const url = `${CONFIG.nextcloudUrl}/ocs/v1.php/cloud/user?format=json`;
-  const resp = await fetch(url, {
-    headers: {
-      'Authorization': 'Basic ' + btoa(`${username}:${password}`),
-      'OCS-APIRequest': 'true',
-    },
-  });
+async function sha256(text) {
+  const data = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
 
-  if (!resp.ok) {
-    throw new Error('Anmeldung fehlgeschlagen.');
+/**
+ * Prüft das Admin-Passwort gegen den gespeicherten Hash.
+ * Wirft einen Fehler wenn das Passwort nicht stimmt.
+ */
+export async function verifyPassword(password) {
+  if (!CONFIG.adminPasswordHash) {
+    throw new Error('Kein Admin-Passwort konfiguriert.');
   }
 
-  const data = await resp.json();
-  if (data.ocs?.meta?.statuscode !== 100) {
-    throw new Error('Anmeldung fehlgeschlagen.');
+  const hash = await sha256(password);
+  if (hash !== CONFIG.adminPasswordHash.toLowerCase()) {
+    throw new Error('Falsches Passwort.');
   }
-
-  return data.ocs.data;
 }
