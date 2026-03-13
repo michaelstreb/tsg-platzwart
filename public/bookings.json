@@ -1,26 +1,6 @@
 {
   "bookings": [
     {
-      "id": "b-mmp3f12b2d4b",
-      "facilityId": "grossfeld-2",
-      "parts": [
-        1
-      ],
-      "totalParts": 1,
-      "team": "1. Mannschaft",
-      "title": "TSG 08 Roth vs. DJK Stopfenheim",
-      "startTime": "14:00",
-      "endTime": "16:00",
-      "rrule": "",
-      "rruleStart": "2026-03-14",
-      "rruleEnd": "",
-      "exceptions": [],
-      "cabins": [],
-      "notes": "",
-      "createdBy": "admin",
-      "createdAt": "2026-03-13T16:10:15.971Z"
-    },
-    {
       "id": "b-mmpe0ifshhdn",
       "facilityId": "grossfeld-2",
       "parts": [
