@@ -19,6 +19,33 @@ const FACILITY_TYPE_LABELS = {
   hall: 'Halle',
 };
 
+const PART_LABELS = {
+  '1/2-1': '½ oben',
+  '1/2-2': '½ unten',
+  '1/4-1': 'Q1',
+  '1/4-2': 'Q2',
+  '1/4-3': 'Q3',
+  '1/4-4': 'Q4',
+};
+
+function getPartLabel(b) {
+  if (!b.totalParts || b.totalParts <= 1) return null;
+  const key = `1/${b.totalParts}-${b.part}`;
+  return PART_LABELS[key] || `${b.part}/${b.totalParts}`;
+}
+
+function getCabinLabel(b, facilities) {
+  const cabins = b.cabins || [];
+  if (cabins.length === 0) return null;
+  return cabins.map(id => {
+    const name = facilities?.find(f => f.id === id)?.name;
+    if (!name) return null;
+    const short = name.replace(/^Kabine\s*/, 'K');
+    const assignedTeam = b.cabinTeams?.[id];
+    return assignedTeam ? `${short} (${assignedTeam})` : short;
+  }).filter(Boolean).join(', ');
+}
+
 export function DayView({ facilities, bookings, teams, selectedDate, onSelectBooking, onDateChange }) {
   const touchStartX = useRef(null);
   const [now, setNow] = useState(new Date());
@@ -154,6 +181,8 @@ export function DayView({ facilities, bookings, teams, selectedDate, onSelectBoo
                   const left = (startMin / totalMinutes) * 100;
                   const width = ((endMin - startMin) / totalMinutes) * 100;
                   const color = teamColor(b.team, teams);
+                  const partLabel = getPartLabel(b);
+                  const cabinLabel = getCabinLabel(b, facilities);
 
                   return (
                     <div
@@ -172,6 +201,8 @@ export function DayView({ facilities, bookings, teams, selectedDate, onSelectBoo
                         <span class="day-grid-block-title">{b.title}</span>
                       )}
                       <span class="day-grid-block-time">{b.startTime}–{b.endTime}</span>
+                      {partLabel && <span class="day-grid-block-badge">{partLabel}</span>}
+                      {cabinLabel && <span class="day-grid-block-badge">{cabinLabel}</span>}
                     </div>
                   );
                 })}
