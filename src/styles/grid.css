@@ -97,81 +97,164 @@
   background: var(--color-accent);
 }
 
-/* Day View */
+/* Day View — horizontaler Zeitstrahl */
 .day-view {
   padding: 8px 12px;
 }
 
-.day-facility {
-  margin-bottom: 16px;
+.day-grid {
+  display: grid;
+  grid-template-columns: 110px 1fr;
   background: var(--color-surface);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
 }
 
-.day-facility-header {
-  padding: 10px 14px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  border-left: 4px solid;
+/* Header-Zeile */
+.day-grid-corner {
   background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
 }
 
-.day-facility-body {
+.day-grid-timeline {
   position: relative;
-  height: 400px;
-  padding: 0 8px;
+  height: 28px;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
 }
 
-.day-hour-line {
+.day-grid-hour-label {
   position: absolute;
-  left: 0;
-  right: 0;
-  border-top: 1px solid var(--color-border);
-}
-
-.day-hour-label {
   font-size: 0.65rem;
   color: var(--color-text-secondary);
-  position: relative;
-  top: -0.5em;
-  padding-left: 4px;
+  transform: translateX(-50%);
+  top: 6px;
+  white-space: nowrap;
 }
 
-/* Now-Line (Day View) */
-.day-now-line {
+.day-grid-now-marker {
   position: absolute;
-  left: 0;
-  right: 0;
-  border-top: 2px solid var(--color-accent);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-accent);
+  z-index: 2;
+}
+
+/* Anlagen-Labels */
+.day-grid-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px 10px;
+  border-left: 4px solid;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
+  min-height: 52px;
+}
+
+.day-grid-label-name {
+  font-weight: 600;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.day-grid-label-type {
+  font-size: 0.65rem;
+  color: var(--color-text-secondary);
+}
+
+/* Zeitstrahl-Zeile */
+.day-grid-row {
+  position: relative;
+  min-height: 52px;
+  border-bottom: 1px solid var(--color-border);
+  padding: 4px 0;
+}
+
+.day-grid-vline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--color-border);
+  pointer-events: none;
+}
+
+.day-grid-now-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-accent);
   z-index: 8;
   pointer-events: none;
 }
 
-.day-now-line::before {
-  content: '';
+/* Buchungsblöcke (horizontal) */
+.day-grid-block {
   position: absolute;
-  left: 0;
-  top: -5px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-accent);
+  top: 3px;
+  bottom: 3px;
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: #fff;
+  font-size: 0.7rem;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  z-index: 5;
+  transition: opacity 0.15s;
 }
 
-.day-facility-type {
-  font-weight: 400;
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-  margin-left: 8px;
+.day-grid-block:hover {
+  opacity: 0.9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-.day-empty {
+.day-grid-block-team {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.day-grid-block-title {
+  white-space: nowrap;
+  opacity: 0.9;
+}
+
+.day-grid-block-time {
+  white-space: nowrap;
+  opacity: 0.85;
+  font-size: 0.6rem;
+}
+
+.day-grid-empty {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   height: 100%;
   color: var(--color-text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+}
+
+/* Responsive: schmalere Labels auf Mobile */
+@media (max-width: 480px) {
+  .day-grid {
+    grid-template-columns: 80px 1fr;
+  }
+
+  .day-grid-label {
+    padding: 6px 6px;
+  }
+
+  .day-grid-label-name {
+    font-size: 0.7rem;
+  }
 }
