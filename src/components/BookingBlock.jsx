@@ -15,10 +15,24 @@ function getPartLabel(booking) {
   return PART_LABELS[key] || `${booking.part}/${booking.totalParts}`;
 }
 
+function formatCabinLabel(booking, facilities) {
+  const cabins = booking.cabins || [];
+  if (cabins.length === 0) return null;
+  return cabins.map(id => {
+    const name = facilities?.find(f => f.id === id)?.name;
+    if (!name) return null;
+    // "Kabine 1" → "K1", andere Namen kürzen
+    const short = name.replace(/^Kabine\s*/, 'K');
+    const assignedTeam = booking.cabinTeams?.[id];
+    return assignedTeam ? `${short} (${assignedTeam})` : short;
+  }).filter(Boolean).join(', ');
+}
+
 export function BookingBlock({ booking, teams, facilities, style, onClick, compact }) {
   const color = teamColor(booking.team, teams);
   const facility = facilities?.find(f => f.id === booking.facilityId);
   const partLabel = getPartLabel(booking);
+  const cabinLabel = formatCabinLabel(booking, facilities);
 
   return (
     <div
@@ -40,6 +54,7 @@ export function BookingBlock({ booking, teams, facilities, style, onClick, compa
           <span class="booking-block-time">{booking.startTime}–{booking.endTime}</span>
           {facility && <span class="booking-block-facility">{facility.name}</span>}
           {partLabel && <span class="booking-block-parts">{partLabel}</span>}
+          {cabinLabel && <span class="booking-block-cabins">{cabinLabel}</span>}
         </>
       )}
     </div>
