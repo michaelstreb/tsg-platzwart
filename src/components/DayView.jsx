@@ -5,7 +5,6 @@ import { teamColor } from '../models/teams.js';
 
 const HOUR_START = 8;
 const HOUR_END = 22;
-const HOURS = Array.from({ length: HOUR_END - HOUR_START + 1 }, (_, i) => HOUR_START + i);
 
 function isSameDay(a, b) {
   return a.getDate() === b.getDate() &&
@@ -49,28 +48,15 @@ function getCabinLabel(b, facilities) {
 export function DayView({ facilities, bookings, teams, selectedDate, onSelectBooking, onDateChange }) {
   const touchStartX = useRef(null);
   const [now, setNow] = useState(new Date());
-  const nowLineRef = useRef(null);
-  const scrolledRef = useRef(false);
 
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 60000);
     return () => clearInterval(id);
   }, []);
 
-  useEffect(() => {
-    scrolledRef.current = false;
-  }, [selectedDate]);
-
-  useEffect(() => {
-    if (!scrolledRef.current && nowLineRef.current) {
-      nowLineRef.current.scrollIntoView({ inline: 'center', behavior: 'smooth' });
-      scrolledRef.current = true;
-    }
-  });
-
   const isToday = isSameDay(selectedDate, now);
   const nowMinutes = now.getHours() * 60 + now.getMinutes();
-  const nowPercent = ((nowMinutes - HOUR_START * 60) / ((HOUR_END - HOUR_START) * 60)) * 100;
+  const nowTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
   const dayBookings = useMemo(() => {
     const dayStart = new Date(selectedDate);
@@ -81,7 +67,6 @@ export function DayView({ facilities, bookings, teams, selectedDate, onSelectBoo
     return bookings.filter(b => expandRecurrence(b, dayStart, dayEnd).length > 0);
   }, [bookings, selectedDate]);
 
-  // Nur Nicht-Kabinen-Anlagen anzeigen (Kabinen werden als Badges auf den Buchungen gezeigt)
   const displayFacilities = useMemo(() => {
     return facilities.filter(f => f.type !== 'cabin');
   }, [facilities]);
@@ -95,10 +80,12 @@ export function DayView({ facilities, bookings, teams, selectedDate, onSelectBoo
       const arr = map.get(b.facilityId);
       if (arr) arr.push(b);
     }
+    // Sort by start time
+    for (const [, arr] of map) {
+      arr.sort((a, b) => timeToMinutes(a.startTime) - timeToMinutes(b.startTime));
+    }
     return map;
   }, [displayFacilities, dayBookings]);
-
-  const totalMinutes = (HOUR_END - HOUR_START) * 60;
 
   const handleTouchStart = (e) => {
     touchStartX.current = e.touches[0].clientX;
@@ -115,125 +102,89 @@ export function DayView({ facilities, bookings, teams, selectedDate, onSelectBoo
     touchStartX.current = null;
   };
 
+  // Prüfe ob Buchung gerade aktiv ist
+  const isActive = (b) => {
+    if (!isToday) return false;
+    const start = timeToMinutes(b.startTime);
+    const end = timeToMinutes(b.endTime);
+    return nowMinutes >= start && nowMinutes < end;
+  };
+
   return (
     <div
       class="day-view"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div class="day-grid">
-        {/* Header-Zeile mit Stunden */}
-        <div class="day-grid-corner" />
-        <div class="day-grid-timeline">
-          {HOURS.map(h => (
-            <div
-              key={h}
-              class="day-grid-hour-label"
-              style={{ left: `${((h - HOUR_START) / (HOUR_END - HOUR_START)) * 100}%` }}
-            >
-              {String(h).padStart(2, '0')}
-            </div>
-          ))}
-
-          {/* Now-Line im Header */}
-          {isToday && nowPercent >= 0 && nowPercent <= 100 && (
-            <div
-              class="day-grid-now-marker"
-              style={{ left: `${nowPercent}%` }}
-            >
-              <span class="day-grid-now-time">
-                {String(now.getHours()).padStart(2, '0')}:{String(now.getMinutes()).padStart(2, '0')}
-              </span>
-            </div>
-          )}
+      {/* Aktuelle Uhrzeit */}
+      {isToday && (
+        <div class="day-now-banner">
+          <span class="day-now-dot" />
+          Jetzt: {nowTimeStr} Uhr
         </div>
+      )}
 
-        {/* Anlagen-Zeilen */}
-        {displayFacilities.map(facility => {
-          const fBookings = byFacility.get(facility.id) || [];
-          const typeLabel = FACILITY_TYPE_LABELS[facility.type];
+      {displayFacilities.map(facility => {
+        const fBookings = byFacility.get(facility.id) || [];
+        const typeLabel = FACILITY_TYPE_LABELS[facility.type];
 
-          return (
-            <Fragment key={facility.id}>
-              <div class="day-grid-label" style={{ borderLeftColor: facility.color }}>
-                <span class="day-grid-label-name">{facility.name}</span>
-                {typeLabel && <span class="day-grid-label-type">{typeLabel}</span>}
-              </div>
-              <div class="day-grid-row">
-                {/* Stundenlinien */}
-                {HOURS.map(h => (
-                  <div
-                    key={h}
-                    class="day-grid-vline"
-                    style={{ left: `${((h - HOUR_START) / (HOUR_END - HOUR_START)) * 100}%` }}
-                  />
-                ))}
+        return (
+          <div key={facility.id} class="day-facility">
+            <div class="day-facility-header" style={{ borderLeftColor: facility.color }}>
+              <span class="day-facility-name">{facility.name}</span>
+              {typeLabel && <span class="day-facility-type">{typeLabel}</span>}
+              {fBookings.length === 0 && <span class="day-facility-free">Frei</span>}
+            </div>
 
-                {/* Now-Line */}
-                {isToday && nowPercent >= 0 && nowPercent <= 100 && (
-                  <div
-                    ref={nowLineRef}
-                    class="day-grid-now-line"
-                    style={{ left: `${nowPercent}%` }}
-                  />
-                )}
-
-                {/* Buchungsblöcke */}
+            {fBookings.length > 0 && (
+              <div class="day-booking-list">
                 {fBookings.map(b => {
-                  const startMin = timeToMinutes(b.startTime) - HOUR_START * 60;
-                  const endMin = timeToMinutes(b.endTime) - HOUR_START * 60;
-                  const left = (startMin / totalMinutes) * 100;
-                  const width = ((endMin - startMin) / totalMinutes) * 100;
                   const color = teamColor(b.team, teams);
                   const partLabel = getPartLabel(b);
                   const cabinLabel = getCabinLabel(b, facilities);
+                  const active = isActive(b);
 
                   return (
                     <div
                       key={b.id}
-                      class="day-grid-block"
-                      style={{
-                        left: `${left}%`,
-                        width: `${width}%`,
-                        backgroundColor: color,
-                      }}
+                      class={`day-booking-card ${active ? 'day-booking-card--active' : ''}`}
+                      style={{ '--booking-color': color }}
                       onClick={() => onSelectBooking(b)}
-                      title={`${b.title} (${b.startTime}–${b.endTime})`}
                     >
-                      <span class="day-grid-block-team">
-                        {b.rrule && <span class="day-grid-block-repeat">&#x21bb; </span>}
-                        {b.team}
-                      </span>
-                      {b.title && b.title !== b.team && (
-                        <span class="day-grid-block-title">{b.title}</span>
-                      )}
-                      <span class="day-grid-block-time">{b.startTime} – {b.endTime}</span>
-                      {(partLabel || cabinLabel) && (
-                        <span class="day-grid-block-meta">
-                          {partLabel && <span class="day-grid-block-badge">{partLabel}</span>}
-                          {cabinLabel && <span class="day-grid-block-badge">{cabinLabel}</span>}
-                        </span>
-                      )}
-                      {b.notes && <span class="day-grid-block-notes">{b.notes}</span>}
+                      <div class="day-booking-color" style={{ backgroundColor: color }} />
+                      <div class="day-booking-time">
+                        <span class="day-booking-start">{b.startTime}</span>
+                        <span class="day-booking-sep">–</span>
+                        <span class="day-booking-end">{b.endTime}</span>
+                      </div>
+                      <div class="day-booking-info">
+                        <div class="day-booking-main">
+                          <span class="day-booking-team">{b.team}</span>
+                          {b.rrule && <span class="day-booking-repeat">&#x21bb;</span>}
+                        </div>
+                        {b.title && b.title !== b.team && (
+                          <div class="day-booking-title">{b.title}</div>
+                        )}
+                        {(partLabel || cabinLabel) && (
+                          <div class="day-booking-details">
+                            {partLabel && <span class="day-booking-badge">{partLabel}</span>}
+                            {cabinLabel && <span class="day-booking-badge">{cabinLabel}</span>}
+                          </div>
+                        )}
+                        {b.notes && (
+                          <div class="day-booking-notes">{b.notes}</div>
+                        )}
+                      </div>
                     </div>
                   );
                 })}
-
-                {fBookings.length === 0 && (
-                  <span class="day-grid-empty">Frei</span>
-                )}
               </div>
-            </Fragment>
-          );
-        })}
-      </div>
+            )}
+          </div>
+        );
+      })}
 
       <p class="swipe-hint">&#x2190; Wischen für nächsten/vorherigen Tag &#x2192;</p>
     </div>
   );
-}
-
-// Preact Fragment
-function Fragment({ children }) {
-  return children;
 }
