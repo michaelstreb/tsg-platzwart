@@ -1,3 +1,27 @@
 {
-  "bookings": []
+  "bookings": [
+    {
+      "id": "b-mmpehjmqjyin",
+      "facilityId": "grossfeld-4",
+      "parts": [
+        1
+      ],
+      "totalParts": 1,
+      "team": "2. Mannschaft",
+      "title": "U23 vs Kleinschwarzenlohe",
+      "startTime": "13:00",
+      "endTime": "15:00",
+      "rrule": "",
+      "rruleStart": "2026-03-14",
+      "rruleEnd": "",
+      "exceptions": [],
+      "cabins": [
+        "kabine-3",
+        "kabine-5"
+      ],
+      "notes": "",
+      "createdBy": "admin",
+      "createdAt": "2026-03-13T21:20:09.123Z"
+    }
+  ]
 }
