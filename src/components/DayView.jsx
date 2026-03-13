@@ -196,13 +196,17 @@ export function DayView({ facilities, bookings, teams, selectedDate, onSelectBoo
                       onClick={() => onSelectBooking(b)}
                       title={`${b.title} (${b.startTime}–${b.endTime})`}
                     >
-                      <span class="day-grid-block-team">{b.team}</span>
-                      {b.title && b.title !== b.team && (
-                        <span class="day-grid-block-title">{b.title}</span>
-                      )}
-                      <span class="day-grid-block-time">{b.startTime}–{b.endTime}</span>
-                      {partLabel && <span class="day-grid-block-badge">{partLabel}</span>}
-                      {cabinLabel && <span class="day-grid-block-badge">{cabinLabel}</span>}
+                      <div class="day-grid-block-line1">
+                        <span class="day-grid-block-team">{b.team}</span>
+                        {b.title && b.title !== b.team && (
+                          <span class="day-grid-block-title">{b.title}</span>
+                        )}
+                      </div>
+                      <div class="day-grid-block-line2">
+                        <span class="day-grid-block-time">{b.startTime}–{b.endTime}</span>
+                        {partLabel && <span class="day-grid-block-badge">{partLabel}</span>}
+                        {cabinLabel && <span class="day-grid-block-badge">{cabinLabel}</span>}
+                      </div>
                     </div>
                   );
                 })}
