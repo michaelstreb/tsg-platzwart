@@ -185,6 +185,7 @@ export function App() {
               teams={teams}
               selectedDate={selectedDate}
               onSelectBooking={setSelectedBooking}
+              hideSlider
             />
             <DayView
               facilities={visibleFacilities}

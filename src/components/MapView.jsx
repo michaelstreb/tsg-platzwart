@@ -5,7 +5,7 @@ import { expandRecurrence } from '../models/recurrence.js';
 import { isActiveAtTime } from '../models/booking.js';
 import { teamColor } from '../models/teams.js';
 
-export function MapView({ facilities, bookings, teams, selectedDate, onSelectBooking }) {
+export function MapView({ facilities, bookings, teams, selectedDate, onSelectBooking, hideSlider }) {
   const [currentMinutes, setCurrentMinutes] = useState(() => {
     const now = new Date();
     return now.getHours() * 60 + now.getMinutes();
@@ -129,10 +129,12 @@ export function MapView({ facilities, bookings, teams, selectedDate, onSelectBoo
         </div>
       )}
 
-      <TimeSlider
-        value={currentMinutes}
-        onChange={setCurrentMinutes}
-      />
+      {!hideSlider && (
+        <TimeSlider
+          value={currentMinutes}
+          onChange={setCurrentMinutes}
+        />
+      )}
 
       {activeBookings.length === 0 && (
         <p class="map-empty">Keine Belegung um diese Uhrzeit</p>
