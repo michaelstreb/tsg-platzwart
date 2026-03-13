@@ -4,7 +4,7 @@ export const CONFIG = {
 
   // --- GitHub (Datenspeicherung) ---
   // Repository im Format 'owner/repo'
-  githubRepo: 'michaelstreb/tsg-platzwart.git',
+  githubRepo: 'michaelstreb/tsg-platzwart',
   // Pfad zur bookings.json im Repo
   githubPath: 'public/bookings.json',
   // Branch
