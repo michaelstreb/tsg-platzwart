@@ -258,6 +258,18 @@ textarea.form-input {
   border-color: #795548;
 }
 
+.cabin-btn--conflict {
+  background: #e53935;
+  border-color: #c62828;
+  color: #fff;
+  animation: pulse-conflict 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-conflict {
+  from { opacity: 1; }
+  to { opacity: 0.7; }
+}
+
 /* Field Part Picker */
 .field-part-picker {
   display: flex;

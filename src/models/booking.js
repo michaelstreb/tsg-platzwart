@@ -66,6 +66,23 @@ export function hasConflict(a, b) {
 }
 
 /**
+ * Prüft ob zwei Buchungen gemeinsame Kabinen zur selben Zeit belegen.
+ */
+export function hasCabinConflict(a, b) {
+  if (a.id === b.id) return false;
+  if (!a.cabins?.length || !b.cabins?.length) return false;
+
+  const aStart = timeToMinutes(a.startTime);
+  const aEnd = timeToMinutes(a.endTime);
+  const bStart = timeToMinutes(b.startTime);
+  const bEnd = timeToMinutes(b.endTime);
+
+  if (!timesOverlap(aStart, aEnd, bStart, bEnd)) return false;
+
+  return a.cabins.some(c => b.cabins.includes(c));
+}
+
+/**
  * Prüft ob eine Buchung zu einer bestimmten Uhrzeit (Minuten) aktiv ist.
  */
 export function isActiveAtTime(booking, minutes) {

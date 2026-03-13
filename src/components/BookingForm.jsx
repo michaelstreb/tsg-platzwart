@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'preact/hooks';
 import { FieldPartPicker } from './FieldPartPicker.jsx';
-import { hasConflict } from '../models/booking.js';
+import { hasConflict, hasCabinConflict } from '../models/booking.js';
 
 const DAYS = [
   { code: 'MO', label: 'Mo' },
@@ -111,6 +111,68 @@ export function BookingForm({ facilities, bookings, teams, editBooking, defaults
       return true;
     });
   }, [facilityId, parts, totalParts, startTime, endTime, isRecurring, rruleDays, rruleStart, rruleEnd, bookings, editBooking]);
+
+  // Kabinenkonflikte — welche Kabinen sind zur gleichen Zeit schon belegt?
+  const cabinConflicts = useMemo(() => {
+    if (!cabins.length || !startTime || !endTime) return {};
+
+    const candidate = {
+      id: editBooking?.id || '__new__',
+      cabins,
+      startTime,
+      endTime,
+    };
+
+    const candidateDays = isRecurring ? new Set(rruleDays) : null;
+    const candidateDate = !isRecurring ? rruleStart : null;
+
+    const conflictMap = {}; // cabinId -> [booking, ...]
+
+    for (const b of bookings) {
+      if (b.id === editBooking?.id) continue;
+      if (!hasCabinConflict(candidate, b)) continue;
+
+      // Zeitraum-Überlappung prüfen
+      const cStart = rruleStart;
+      const cEnd = isRecurring ? rruleEnd : rruleStart;
+      const bStart = b.rruleStart || '';
+      const bEnd = b.rruleEnd || '';
+      if (cEnd && bStart && cEnd < bStart) continue;
+      if (bEnd && cStart && cStart > bEnd) continue;
+
+      // Wochentage prüfen
+      if (b.rrule) {
+        const bDayMatch = b.rrule.match(/BYDAY=([A-Z,]+)/);
+        const bDays = bDayMatch ? new Set(bDayMatch[1].split(',')) : new Set();
+        if (candidateDays) {
+          let overlap = false;
+          for (const d of candidateDays) { if (bDays.has(d)) { overlap = true; break; } }
+          if (!overlap) continue;
+        } else {
+          const dayMap = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+          const dateDay = dayMap[new Date(candidateDate + 'T12:00:00').getDay()];
+          if (!bDays.has(dateDay)) continue;
+        }
+      } else {
+        if (candidateDays) {
+          const dayMap = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+          const dateDay = dayMap[new Date(b.rruleStart + 'T12:00:00').getDay()];
+          if (!candidateDays.has(dateDay)) continue;
+        } else {
+          if (candidateDate !== b.rruleStart) continue;
+        }
+      }
+
+      // Gemeinsame Kabinen finden
+      for (const cId of cabins) {
+        if (b.cabins?.includes(cId)) {
+          if (!conflictMap[cId]) conflictMap[cId] = [];
+          conflictMap[cId].push(b);
+        }
+      }
+    }
+    return conflictMap;
+  }, [cabins, startTime, endTime, isRecurring, rruleDays, rruleStart, rruleEnd, bookings, editBooking]);
 
   const toggleDay = (code) => {
     setRruleDays(prev =>
@@ -339,17 +401,34 @@ export function BookingForm({ facilities, bookings, teams, editBooking, defaults
             <div class="form-field">
               <span class="form-label">Kabinen</span>
               <div class="cabin-picker">
-                {cabinFacilities.map(c => (
-                  <button
-                    key={c.id}
-                    type="button"
-                    class={`cabin-btn ${cabins.includes(c.id) ? 'cabin-btn--active' : ''}`}
-                    onClick={() => toggleCabin(c.id)}
-                  >
-                    {c.name}
-                  </button>
-                ))}
+                {cabinFacilities.map(c => {
+                  const cConflicts = cabinConflicts[c.id] || [];
+                  const isSelected = cabins.includes(c.id);
+                  const hasConflictFlag = isSelected && cConflicts.length > 0;
+                  return (
+                    <button
+                      key={c.id}
+                      type="button"
+                      class={`cabin-btn ${isSelected ? 'cabin-btn--active' : ''} ${hasConflictFlag ? 'cabin-btn--conflict' : ''}`}
+                      onClick={() => toggleCabin(c.id)}
+                      title={hasConflictFlag ? `Belegt von: ${cConflicts.map(b => b.team).join(', ')}` : ''}
+                    >
+                      {c.name}
+                      {hasConflictFlag && ' ⚠'}
+                    </button>
+                  );
+                })}
               </div>
+              {Object.keys(cabinConflicts).some(id => cabins.includes(id)) && (
+                <div class="form-warning" style={{ marginTop: '0.5rem' }}>
+                  Kabinenkonflikt: {Object.entries(cabinConflicts)
+                    .filter(([id]) => cabins.includes(id))
+                    .map(([id, bs]) => {
+                      const cabin = cabinFacilities.find(c => c.id === id);
+                      return `${cabin?.name}: ${bs.map(b => `${b.team} (${b.startTime}–${b.endTime})`).join(', ')}`;
+                    }).join(' | ')}
+                </div>
+              )}
             </div>
           )}
 
