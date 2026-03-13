@@ -18,9 +18,6 @@ function getPartLabel(booking) {
 export function BookingBlock({ booking, teams, facilities, style, onClick, compact }) {
   const color = teamColor(booking.team, teams);
   const facility = facilities?.find(f => f.id === booking.facilityId);
-  const cabinNames = (booking.cabins || [])
-    .map(id => facilities?.find(f => f.id === id)?.name)
-    .filter(Boolean);
   const partLabel = getPartLabel(booking);
 
   return (
@@ -43,7 +40,6 @@ export function BookingBlock({ booking, teams, facilities, style, onClick, compa
           <span class="booking-block-time">{booking.startTime}–{booking.endTime}</span>
           {facility && <span class="booking-block-facility">{facility.name}</span>}
           {partLabel && <span class="booking-block-parts">{partLabel}</span>}
-          {cabinNames.length > 0 && <span class="booking-block-cabins">{cabinNames.join(', ')}</span>}
         </>
       )}
     </div>
