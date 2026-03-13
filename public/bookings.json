@@ -26,6 +26,28 @@
       "notes": "",
       "createdBy": "admin",
       "createdAt": "2026-03-13T21:20:09.123Z"
+    },
+    {
+      "id": "b-mmpfcunlgx13",
+      "facilityId": "grossfeld-3",
+      "parts": [
+        1
+      ],
+      "totalParts": 1,
+      "team": "U17",
+      "title": "Training U17",
+      "startTime": "18:30",
+      "endTime": "20:00",
+      "rrule": "FREQ=WEEKLY;BYDAY=TU",
+      "rruleStart": "2026-03-17",
+      "rruleEnd": "2026-03-31",
+      "exceptions": [],
+      "cabins": [
+        "kabine-4"
+      ],
+      "notes": "",
+      "createdBy": "admin",
+      "createdAt": "2026-03-13T21:44:29.745Z"
     }
   ]
 }
