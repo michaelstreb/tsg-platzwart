@@ -13,18 +13,21 @@ async function fetchLocal(filename) {
 // --- GitHub ---
 
 async function fetchGitHub() {
-  const url = `https://api.github.com/repos/${CONFIG.githubRepo}/contents/${CONFIG.githubPath}?ref=${CONFIG.githubBranch}`;
+  const url = `https://api.github.com/repos/${CONFIG.githubRepo}/contents/${CONFIG.githubPath}?ref=${CONFIG.githubBranch}&t=${Date.now()}`;
   const headers = {
     'Accept': 'application/vnd.github.v3+json',
+    'If-None-Match': '',
   };
   if (CONFIG.githubToken) {
     headers['Authorization'] = `Bearer ${CONFIG.githubToken}`;
   }
-  const resp = await fetch(url, { headers });
+  const resp = await fetch(url, { headers, cache: 'no-store' });
   if (!resp.ok) return null;
   const json = await resp.json();
   githubSha = json.sha;
-  const content = decodeURIComponent(escape(atob(json.content)));
+  // GitHub API gibt Base64 mit Zeilenumbrüchen zurück
+  const raw = json.content.replace(/\n/g, '');
+  const content = decodeURIComponent(escape(atob(raw)));
   return JSON.parse(content);
 }
 
