@@ -1,26 +1,6 @@
 {
   "bookings": [
     {
-      "id": "b-mmpe5gm0ofwh",
-      "facilityId": "grossfeld-2",
-      "parts": [
-        1
-      ],
-      "totalParts": 1,
-      "team": "U11",
-      "title": "Training U11",
-      "startTime": "21:00",
-      "endTime": "22:00",
-      "rrule": "",
-      "rruleStart": "2026-03-13",
-      "rruleEnd": "",
-      "exceptions": [],
-      "cabins": [],
-      "notes": "",
-      "createdBy": "admin",
-      "createdAt": "2026-03-13T21:10:45.336Z"
-    },
-    {
       "id": "b-004",
       "facilityId": "allwetter",
       "parts": [
