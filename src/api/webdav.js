@@ -12,19 +12,20 @@ async function fetchLocal(filename) {
 
 // --- GitHub ---
 
-async function loadGitHubSha() {
-  if (!CONFIG.githubToken) return null;
-
+async function fetchGitHub() {
   const url = `https://api.github.com/repos/${CONFIG.githubRepo}/contents/${CONFIG.githubPath}?ref=${CONFIG.githubBranch}`;
-  const resp = await fetch(url, {
-    headers: {
-      'Authorization': `Bearer ${CONFIG.githubToken}`,
-      'Accept': 'application/vnd.github.v3+json',
-    },
-  });
+  const headers = {
+    'Accept': 'application/vnd.github.v3+json',
+  };
+  if (CONFIG.githubToken) {
+    headers['Authorization'] = `Bearer ${CONFIG.githubToken}`;
+  }
+  const resp = await fetch(url, { headers });
   if (!resp.ok) return null;
   const json = await resp.json();
-  return json.sha;
+  githubSha = json.sha;
+  const content = decodeURIComponent(escape(atob(json.content)));
+  return JSON.parse(content);
 }
 
 async function putGitHub(data) {
@@ -32,7 +33,7 @@ async function putGitHub(data) {
 
   // SHA holen falls noch nicht vorhanden
   if (!githubSha) {
-    githubSha = await loadGitHubSha();
+    await fetchGitHub();
   }
 
   const url = `https://api.github.com/repos/${CONFIG.githubRepo}/contents/${CONFIG.githubPath}`;
@@ -80,6 +81,10 @@ export async function loadBookings() {
       const cached = localStorage.getItem('bookings_local');
       if (cached) return JSON.parse(cached);
     } catch { /* ignore */ }
+  }
+  if (CONFIG.storage === 'github') {
+    const data = await fetchGitHub();
+    if (data) return data;
   }
   return fetchLocal('bookings.json');
 }
