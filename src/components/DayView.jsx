@@ -200,17 +200,21 @@ export function DayView({ facilities, bookings, teams, selectedDate, onSelectBoo
                       onClick={() => onSelectBooking(b)}
                       title={`${b.title} (${b.startTime}–${b.endTime})`}
                     >
-                      <div class="day-grid-block-line1">
-                        <span class="day-grid-block-team">{b.team}</span>
-                        {b.title && b.title !== b.team && (
-                          <span class="day-grid-block-title">{b.title}</span>
-                        )}
-                      </div>
-                      <div class="day-grid-block-line2">
-                        <span class="day-grid-block-time">{b.startTime}–{b.endTime}</span>
-                        {partLabel && <span class="day-grid-block-badge">{partLabel}</span>}
-                        {cabinLabel && <span class="day-grid-block-badge">{cabinLabel}</span>}
-                      </div>
+                      <span class="day-grid-block-team">
+                        {b.rrule && <span class="day-grid-block-repeat">&#x21bb; </span>}
+                        {b.team}
+                      </span>
+                      {b.title && b.title !== b.team && (
+                        <span class="day-grid-block-title">{b.title}</span>
+                      )}
+                      <span class="day-grid-block-time">{b.startTime} – {b.endTime}</span>
+                      {(partLabel || cabinLabel) && (
+                        <span class="day-grid-block-meta">
+                          {partLabel && <span class="day-grid-block-badge">{partLabel}</span>}
+                          {cabinLabel && <span class="day-grid-block-badge">{cabinLabel}</span>}
+                        </span>
+                      )}
+                      {b.notes && <span class="day-grid-block-notes">{b.notes}</span>}
                     </div>
                   );
                 })}
