@@ -1,0 +1,185 @@
+/* Booking Blocks */
+.booking-block {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  border-radius: 4px;
+  padding: 4px 6px;
+  color: #fff;
+  font-size: 0.75rem;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 5;
+  transition: opacity 0.15s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.booking-block:hover {
+  opacity: 0.9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.booking-block--compact {
+  padding: 2px 4px;
+  font-size: 0.65rem;
+}
+
+.booking-block-team {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.booking-block-time {
+  font-size: 0.65rem;
+  opacity: 0.9;
+}
+
+/* Map View */
+.map-view {
+  padding: 12px;
+}
+
+.map-container {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  overflow: hidden;
+}
+
+.map-svg {
+  width: 100%;
+  height: auto;
+  max-height: 60dvh;
+}
+
+.map-svg text {
+  pointer-events: none;
+  user-select: none;
+}
+
+.map-facility {
+  transition: opacity 0.15s;
+}
+
+.map-facility:hover {
+  opacity: 1 !important;
+}
+
+.map-text {
+  font-size: 2.8px;
+  fill: #fff;
+  font-weight: 700;
+  text-shadow: 0 0 2px rgba(0,0,0,0.5);
+}
+
+.map-text-sm {
+  font-size: 2px;
+  fill: #fff;
+  font-weight: 700;
+  text-shadow: 0 0 2px rgba(0,0,0,0.5);
+}
+
+.map-label {
+  font-size: 2.4px;
+  fill: #fff;
+  font-weight: 600;
+}
+
+.map-label-sm {
+  font-size: 1.6px;
+  fill: #fff;
+  font-weight: 500;
+}
+
+/* Cabin Strip */
+.cabin-strip {
+  padding: 10px 0 0;
+}
+
+.cabin-strip-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cabin-strip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.cabin-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 6px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  text-align: center;
+  transition: all 0.15s;
+}
+
+.cabin-card--occupied {
+  cursor: pointer;
+  border-width: 2px;
+}
+
+.cabin-card--occupied:hover {
+  box-shadow: var(--shadow);
+}
+
+.cabin-card-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.cabin-card-team {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.cabin-card-free {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+/* Time Slider */
+.time-slider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 4px;
+}
+
+.time-slider-label {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  min-width: 36px;
+}
+
+.time-slider-input {
+  flex: 1;
+  accent-color: var(--color-primary);
+  height: 28px;
+}
+
+.time-slider-current {
+  font-weight: 700;
+  font-size: 1rem;
+  min-width: 44px;
+  text-align: center;
+  color: var(--color-primary);
+}

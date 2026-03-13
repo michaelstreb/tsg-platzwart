@@ -1,0 +1,68 @@
+@media print {
+  .header,
+  .facility-filter,
+  .time-slider,
+  .date-nav,
+  .view-tabs,
+  .btn-icon,
+  .btn-admin,
+  .btn-today,
+  .swipe-hint,
+  .error-banner,
+  .drawer-overlay,
+  .bl-toolbar,
+  .bl-card-actions {
+    display: none !important;
+  }
+
+  .app {
+    max-width: none;
+  }
+
+  .main-content {
+    padding: 0;
+  }
+
+  body {
+    font-size: 11pt;
+    color: #000;
+  }
+
+  .booking-block {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color: #000 !important;
+    border: 1px solid #333;
+  }
+
+  .week-grid {
+    min-width: auto;
+  }
+
+  .week-day-body {
+    height: auto;
+    min-height: 400px;
+  }
+
+  /* Print header */
+  body::before {
+    content: "Platzwart";
+    display: block;
+    font-size: 18pt;
+    font-weight: bold;
+    text-align: center;
+    padding: 8pt 0;
+    border-bottom: 2pt solid #000;
+    margin-bottom: 12pt;
+  }
+
+  .map-svg {
+    max-height: none;
+  }
+
+  .bl-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+}

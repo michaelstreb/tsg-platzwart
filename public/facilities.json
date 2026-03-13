@@ -1,0 +1,16 @@
+{
+  "facilities": [
+    { "id": "grossfeld-1", "name": "Kleinfeld", "type": "grass", "maxParts": 4, "color": "#4CAF50", "mapCoords": { "x": 6, "y": 20, "width": 18, "height": 25 } },
+    { "id": "grossfeld-2", "name": "A-Platz", "type": "grass", "maxParts": 4, "color": "#8BC34A", "mapCoords": { "x": 29, "y": 8, "width": 20, "height": 33 } },
+    { "id": "grossfeld-3", "name": "B-Platz", "type": "grass", "maxParts": 4, "color": "#CDDC39", "mapCoords": { "x": 53, "y": 13, "width": 18, "height": 30 } },
+    { "id": "grossfeld-4", "name": "C-Platz", "type": "grass", "maxParts": 4, "color": "#FFC107", "mapCoords": { "x": 74, "y": 13, "width": 18, "height": 30 } },
+    { "id": "allwetter", "name": "Allwetterplatz", "type": "allweather", "maxParts": 1, "color": "#2196F3", "mapCoords": { "x": 63, "y": 3.5, "width": 20, "height": 6 } },
+    { "id": "sporthalle", "name": "Halle", "type": "hall", "maxParts": 1, "color": "#9C27B0", "mapCoords": { "x": 25, "y": 52.5, "width": 15, "height": 6 } },
+    { "id": "kabine-1", "name": "Kabine 1", "type": "cabin", "maxParts": 1, "color": "#795548", "mapCoords": { "x": 70, "y": 60, "width": 8, "height": 8 } },
+    { "id": "kabine-2", "name": "Kabine 2", "type": "cabin", "maxParts": 1, "color": "#795548", "mapCoords": { "x": 79, "y": 60, "width": 8, "height": 8 } },
+    { "id": "kabine-3", "name": "Kabine 3", "type": "cabin", "maxParts": 1, "color": "#795548", "mapCoords": { "x": 88, "y": 60, "width": 8, "height": 8 } },
+    { "id": "kabine-4", "name": "Kabine 4", "type": "cabin", "maxParts": 1, "color": "#795548", "mapCoords": { "x": 70, "y": 70, "width": 8, "height": 8 } },
+    { "id": "kabine-5", "name": "Kabine 5", "type": "cabin", "maxParts": 1, "color": "#795548", "mapCoords": { "x": 79, "y": 70, "width": 8, "height": 8 } },
+    { "id": "kabine-6", "name": "Kabine 6", "type": "cabin", "maxParts": 1, "color": "#795548", "mapCoords": { "x": 88, "y": 70, "width": 8, "height": 8 } }
+  ]
+}
