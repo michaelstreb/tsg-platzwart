@@ -3,7 +3,9 @@
     {
       "id": "b-001",
       "facilityId": "grossfeld-1",
-      "parts": [1],
+      "parts": [
+        1
+      ],
       "totalParts": 2,
       "team": "U15",
       "title": "Training U15",
@@ -13,7 +15,10 @@
       "rruleStart": "2026-03-03",
       "rruleEnd": "2026-06-30",
       "exceptions": [],
-      "cabins": ["kabine-1", "kabine-2"],
+      "cabins": [
+        "kabine-1",
+        "kabine-2"
+      ],
       "notes": "",
       "createdBy": "admin1",
       "createdAt": "2026-03-01T08:00:00Z"
@@ -21,7 +26,9 @@
     {
       "id": "b-002",
       "facilityId": "grossfeld-1",
-      "parts": [2],
+      "parts": [
+        2
+      ],
       "totalParts": 2,
       "team": "U17",
       "title": "Training U17",
@@ -31,7 +38,9 @@
       "rruleStart": "2026-03-03",
       "rruleEnd": "2026-06-30",
       "exceptions": [],
-      "cabins": ["kabine-3"],
+      "cabins": [
+        "kabine-3"
+      ],
       "notes": "",
       "createdBy": "admin1",
       "createdAt": "2026-03-01T08:00:00Z"
@@ -39,7 +48,9 @@
     {
       "id": "b-003",
       "facilityId": "grossfeld-2",
-      "parts": [1],
+      "parts": [
+        1
+      ],
       "totalParts": 1,
       "team": "U19",
       "title": "Training U19",
@@ -48,8 +59,13 @@
       "rrule": "FREQ=WEEKLY;BYDAY=TU,TH",
       "rruleStart": "2026-03-03",
       "rruleEnd": "2026-06-30",
-      "exceptions": ["2026-04-14"],
-      "cabins": ["kabine-4", "kabine-5"],
+      "exceptions": [
+        "2026-04-14"
+      ],
+      "cabins": [
+        "kabine-4",
+        "kabine-5"
+      ],
       "notes": "",
       "createdBy": "admin1",
       "createdAt": "2026-03-01T09:00:00Z"
@@ -57,7 +73,9 @@
     {
       "id": "b-004",
       "facilityId": "allwetter",
-      "parts": [1],
+      "parts": [
+        1
+      ],
       "totalParts": 1,
       "team": "U13",
       "title": "Training U13",
@@ -67,7 +85,9 @@
       "rruleStart": "2026-03-02",
       "rruleEnd": "2026-06-30",
       "exceptions": [],
-      "cabins": ["kabine-6"],
+      "cabins": [
+        "kabine-6"
+      ],
       "notes": "",
       "createdBy": "admin1",
       "createdAt": "2026-03-01T09:00:00Z"
@@ -75,7 +95,9 @@
     {
       "id": "b-005",
       "facilityId": "sporthalle",
-      "parts": [1],
+      "parts": [
+        1
+      ],
       "totalParts": 1,
       "team": "U11",
       "title": "Hallentraining U11",
@@ -93,7 +115,9 @@
     {
       "id": "b-006",
       "facilityId": "grossfeld-3",
-      "parts": [1],
+      "parts": [
+        1
+      ],
       "totalParts": 1,
       "team": "1. Mannschaft",
       "title": "Training Herren",
@@ -103,7 +127,10 @@
       "rruleStart": "2026-03-03",
       "rruleEnd": "2026-06-30",
       "exceptions": [],
-      "cabins": ["kabine-1", "kabine-2"],
+      "cabins": [
+        "kabine-1",
+        "kabine-2"
+      ],
       "notes": "",
       "createdBy": "admin1",
       "createdAt": "2026-03-01T10:00:00Z"
@@ -111,7 +138,9 @@
     {
       "id": "b-007",
       "facilityId": "grossfeld-4",
-      "parts": [1],
+      "parts": [
+        1
+      ],
       "totalParts": 2,
       "team": "U9",
       "title": "Training U9",
@@ -125,6 +154,26 @@
       "notes": "Minitore aufbauen",
       "createdBy": "admin1",
       "createdAt": "2026-03-01T10:00:00Z"
+    },
+    {
+      "id": "b-mmp3f12b2d4b",
+      "facilityId": "grossfeld-2",
+      "parts": [
+        1
+      ],
+      "totalParts": 1,
+      "team": "1. Mannschaft",
+      "title": "TSG 08 Roth vs. DJK Stopfenheim",
+      "startTime": "14:00",
+      "endTime": "16:00",
+      "rrule": "",
+      "rruleStart": "2026-03-14",
+      "rruleEnd": "",
+      "exceptions": [],
+      "cabins": [],
+      "notes": "",
+      "createdBy": "admin",
+      "createdAt": "2026-03-13T16:10:15.971Z"
     }
   ]
 }
