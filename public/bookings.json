@@ -1,28 +1,6 @@
 {
   "bookings": [
     {
-      "id": "b-mmpee6ql6ky0",
-      "facilityId": "grossfeld-4",
-      "parts": [
-        2
-      ],
-      "totalParts": 4,
-      "team": "U10",
-      "title": "Training U10",
-      "startTime": "22:00",
-      "endTime": "23:00",
-      "rrule": "",
-      "rruleStart": "2026-03-13",
-      "rruleEnd": "",
-      "exceptions": [],
-      "cabins": [
-        "kabine-6"
-      ],
-      "notes": "",
-      "createdBy": "admin",
-      "createdAt": "2026-03-13T21:17:32.445Z"
-    },
-    {
       "id": "b-005",
       "facilityId": "sporthalle",
       "parts": [
