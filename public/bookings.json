@@ -258,6 +258,28 @@
       "notes": "",
       "createdBy": "admin",
       "createdAt": "2026-03-13T21:11:08.772Z"
+    },
+    {
+      "id": "b-mmpe6g66peux",
+      "facilityId": "grossfeld-4",
+      "parts": [
+        1
+      ],
+      "totalParts": 4,
+      "team": "U13",
+      "title": "Training U13",
+      "startTime": "22:00",
+      "endTime": "23:00",
+      "rrule": "",
+      "rruleStart": "2026-03-13",
+      "rruleEnd": "",
+      "exceptions": [],
+      "cabins": [
+        "kabine-5"
+      ],
+      "notes": "",
+      "createdBy": "admin",
+      "createdAt": "2026-03-13T21:11:31.422Z"
     }
   ]
 }
