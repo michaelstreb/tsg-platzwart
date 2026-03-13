@@ -140,7 +140,11 @@ export function DayView({ facilities, bookings, teams, selectedDate, onSelectBoo
             <div
               class="day-grid-now-marker"
               style={{ left: `${nowPercent}%` }}
-            />
+            >
+              <span class="day-grid-now-time">
+                {String(now.getHours()).padStart(2, '0')}:{String(now.getMinutes()).padStart(2, '0')}
+              </span>
+            </div>
           )}
         </div>
 

@@ -137,10 +137,31 @@
 .day-grid-now-marker {
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: -1px;
   width: 2px;
   background: var(--color-accent);
   z-index: 2;
+}
+
+.day-grid-now-marker::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.day-grid-now-time {
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  white-space: nowrap;
 }
 
 /* Anlagen-Labels */
@@ -148,29 +169,29 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 8px 10px;
+  padding: 10px 12px;
   border-left: 4px solid;
   border-right: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
   background: var(--color-bg);
-  min-height: 60px;
+  min-height: 80px;
 }
 
 .day-grid-label-name {
   font-weight: 600;
-  font-size: 0.8rem;
-  line-height: 1.2;
+  font-size: 0.9rem;
+  line-height: 1.3;
 }
 
 .day-grid-label-type {
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   color: var(--color-text-secondary);
 }
 
 /* Zeitstrahl-Zeile */
 .day-grid-row {
   position: relative;
-  min-height: 60px;
+  min-height: 80px;
   border-bottom: 1px solid var(--color-border);
   padding: 4px 0;
 }
@@ -194,15 +215,26 @@
   pointer-events: none;
 }
 
+.day-grid-now-line::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
 /* Buchungsblöcke (horizontal, zweizeilig) */
 .day-grid-block {
   position: absolute;
-  top: 2px;
-  bottom: 2px;
-  border-radius: 4px;
-  padding: 3px 6px;
+  top: 3px;
+  bottom: 3px;
+  border-radius: 6px;
+  padding: 6px 8px;
   color: #fff;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   cursor: pointer;
   overflow: hidden;
   display: flex;
@@ -247,12 +279,12 @@
 .day-grid-block-time {
   white-space: nowrap;
   opacity: 0.85;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
 }
 
 .day-grid-block-badge {
   white-space: nowrap;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   background: rgba(0, 0, 0, 0.2);
   padding: 0 4px;
   border-radius: 3px;
