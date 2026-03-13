@@ -1,28 +1,6 @@
 {
   "bookings": [
     {
-      "id": "b-004",
-      "facilityId": "allwetter",
-      "parts": [
-        1
-      ],
-      "totalParts": 1,
-      "team": "U13",
-      "title": "Training U13",
-      "startTime": "15:00",
-      "endTime": "16:30",
-      "rrule": "FREQ=WEEKLY;BYDAY=MO,WE,FR",
-      "rruleStart": "2026-03-02",
-      "rruleEnd": "2026-06-30",
-      "exceptions": [],
-      "cabins": [
-        "kabine-6"
-      ],
-      "notes": "",
-      "createdBy": "admin1",
-      "createdAt": "2026-03-01T09:00:00Z"
-    },
-    {
       "id": "b-mmpe6g66peux",
       "facilityId": "grossfeld-4",
       "parts": [
