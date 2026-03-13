@@ -104,7 +104,9 @@ export function MapView({ facilities, bookings, teams, selectedDate, onSelectBoo
             {cabinFacilities.map(cabin => {
               const cBookings = cabinBookings[cabin.id] || [];
               const occupied = cBookings.length > 0;
-              const team = occupied ? cBookings[0].team : null;
+              const team = occupied
+                ? (cBookings[0].cabinTeams?.[cabin.id] || cBookings[0].team)
+                : null;
               const color = team ? teamColor(team, teams) : null;
 
               return (

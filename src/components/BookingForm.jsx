@@ -39,6 +39,7 @@ export function BookingForm({ facilities, bookings, teams, editBooking, defaults
   const [rruleStart, setRruleStart] = useState(editBooking?.rruleStart || defaults?.date || new Date().toISOString().slice(0, 10));
   const [rruleEnd, setRruleEnd] = useState(editBooking?.rruleEnd || '');
   const [cabins, setCabins] = useState(editBooking?.cabins || []);
+  const [cabinTeams, setCabinTeams] = useState(editBooking?.cabinTeams || {});
   const [notes, setNotes] = useState(editBooking?.notes || '');
   const [error, setError] = useState('');
 
@@ -181,9 +182,28 @@ export function BookingForm({ facilities, bookings, teams, editBooking, defaults
   };
 
   const toggleCabin = (id) => {
-    setCabins(prev =>
-      prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
-    );
+    setCabins(prev => {
+      if (prev.includes(id)) {
+        setCabinTeams(ct => {
+          const next = { ...ct };
+          delete next[id];
+          return next;
+        });
+        return prev.filter(c => c !== id);
+      }
+      return [...prev, id];
+    });
+  };
+
+  const setCabinTeam = (cabinId, teamName) => {
+    setCabinTeams(prev => {
+      if (!teamName) {
+        const next = { ...prev };
+        delete next[cabinId];
+        return next;
+      }
+      return { ...prev, [cabinId]: teamName };
+    });
   };
 
   const handleSubmit = (e) => {
@@ -217,6 +237,7 @@ export function BookingForm({ facilities, bookings, teams, editBooking, defaults
       rruleEnd: isRecurring ? rruleEnd : '',
       exceptions: editBooking?.exceptions || [],
       cabins,
+      cabinTeams: Object.keys(cabinTeams).length > 0 ? cabinTeams : undefined,
       notes,
       createdBy: editBooking?.createdBy || 'admin',
       createdAt: editBooking?.createdAt || new Date().toISOString(),
@@ -419,6 +440,28 @@ export function BookingForm({ facilities, bookings, teams, editBooking, defaults
                   );
                 })}
               </div>
+              {/* Team-Zuweisung pro Kabine */}
+              {cabins.length > 0 && (
+                <div class="cabin-team-assignments">
+                  {cabins.map(cabinId => {
+                    const cabin = cabinFacilities.find(c => c.id === cabinId);
+                    return (
+                      <div key={cabinId} class="cabin-team-row">
+                        <span class="cabin-team-label">{cabin?.name}:</span>
+                        <input
+                          class="form-input cabin-team-input"
+                          type="text"
+                          value={cabinTeams[cabinId] || ''}
+                          onInput={(e) => setCabinTeam(cabinId, e.target.value)}
+                          placeholder={effectiveTeam || 'Team'}
+                        />
+                      </div>
+                    );
+                  })}
+                  <span class="cabin-team-hint">Leer = Hauptteam. Für Gegner o.ä. Team-Name eintragen.</span>
+                </div>
+              )}
+
               {Object.keys(cabinConflicts).some(id => cabins.includes(id)) && (
                 <div class="form-warning" style={{ marginTop: '0.5rem' }}>
                   Kabinenkonflikt: {Object.entries(cabinConflicts)

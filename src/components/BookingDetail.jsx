@@ -59,7 +59,16 @@ export function BookingDetail({ booking, facilities, onClose, admin, onEdit, onD
             {cabinNames.length > 0 && (
               <>
                 <dt>Kabinen</dt>
-                <dd>{cabinNames.join(', ')}</dd>
+                <dd>
+                  {(booking.cabins || []).map(id => {
+                    const name = facilities.find(f => f.id === id)?.name;
+                    const cabinTeam = booking.cabinTeams?.[id];
+                    if (!name) return null;
+                    return cabinTeam
+                      ? `${name} (${cabinTeam})`
+                      : name;
+                  }).filter(Boolean).join(', ')}
+                </dd>
               </>
             )}
 

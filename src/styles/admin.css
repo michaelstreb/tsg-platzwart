@@ -270,6 +270,38 @@ textarea.form-input {
   to { opacity: 0.7; }
 }
 
+/* Cabin Team Assignments */
+.cabin-team-assignments {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cabin-team-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cabin-team-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  min-width: 70px;
+}
+
+.cabin-team-input {
+  flex: 1;
+  padding: 4px 8px !important;
+  font-size: 0.85rem !important;
+}
+
+.cabin-team-hint {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
 /* Field Part Picker */
 .field-part-picker {
   display: flex;
