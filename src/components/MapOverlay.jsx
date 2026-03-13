@@ -1,6 +1,6 @@
 import { teamColor } from '../models/teams.js';
 
-export function MapOverlay({ facility, bookings, teams, onSelectBooking }) {
+export function MapOverlay({ facility, bookings, nextBooking, teams, onSelectBooking }) {
   const { mapCoords, color, name, maxParts } = facility;
   if (!mapCoords) return null;
 
@@ -28,13 +28,13 @@ export function MapOverlay({ facility, bookings, teams, onSelectBooking }) {
 
   // Nicht teilbare Anlagen oder Großfeld ohne Buchung
   const fillColor = hasBookings ? teamColor(bookings[0].team, teams) : 'rgba(255,255,255,0.25)';
-  const label = hasBookings ? bookings[0].team : 'frei';
+  const clickBooking = hasBookings ? bookings[0] : nextBooking;
 
   return (
     <g
       class="map-facility"
-      onClick={() => hasBookings && onSelectBooking(bookings[0])}
-      style={{ cursor: hasBookings ? 'pointer' : 'default' }}
+      onClick={() => clickBooking && onSelectBooking(clickBooking)}
+      style={{ cursor: clickBooking ? 'pointer' : 'default' }}
     >
       <rect
         x={x} y={y} width={width} height={height}
@@ -44,7 +44,7 @@ export function MapOverlay({ facility, bookings, teams, onSelectBooking }) {
         rx={isCabin ? 0.5 : 1}
         opacity={hasBookings ? 0.75 : 0.5}
       />
-      {!isCabin && (
+      {!isCabin && hasBookings && (
         <text
           x={x + width / 2}
           y={y + height / 2}
@@ -52,7 +52,40 @@ export function MapOverlay({ facility, bookings, teams, onSelectBooking }) {
           dominant-baseline="central"
           class="map-text"
         >
-          {label}
+          {bookings[0].team}
+        </text>
+      )}
+      {!isCabin && !hasBookings && nextBooking && (
+        <>
+          <text
+            x={x + width / 2}
+            y={y + height / 2 - 1.5}
+            text-anchor="middle"
+            dominant-baseline="central"
+            class="map-text-next-time"
+          >
+            ab {nextBooking.startTime}
+          </text>
+          <text
+            x={x + width / 2}
+            y={y + height / 2 + 1.5}
+            text-anchor="middle"
+            dominant-baseline="central"
+            class="map-text-next-team"
+          >
+            {nextBooking.team}
+          </text>
+        </>
+      )}
+      {!isCabin && !hasBookings && !nextBooking && (
+        <text
+          x={x + width / 2}
+          y={y + height / 2}
+          text-anchor="middle"
+          dominant-baseline="central"
+          class="map-text"
+        >
+          frei
         </text>
       )}
       {isCabin && hasBookings && (

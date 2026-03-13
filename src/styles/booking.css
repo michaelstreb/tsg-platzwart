@@ -124,6 +124,18 @@
   text-shadow: 0 0 2px rgba(0,0,0,0.5);
 }
 
+.map-text-next-time {
+  font-size: 2px;
+  fill: rgba(255,255,255,0.85);
+  font-weight: 500;
+}
+
+.map-text-next-team {
+  font-size: 2.2px;
+  fill: rgba(255,255,255,0.85);
+  font-weight: 600;
+}
+
 .map-label {
   font-size: 2.4px;
   fill: #fff;
@@ -192,6 +204,12 @@
 .cabin-card-free {
   font-size: 0.75rem;
   color: var(--color-text-secondary);
+}
+
+.cabin-card-next {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
 }
 
 /* Time Slider */
