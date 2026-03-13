@@ -75,6 +75,33 @@
       "notes": "",
       "createdBy": "admin",
       "createdAt": "2026-03-13T21:50:57.364Z"
+    },
+    {
+      "id": "b-mmpfnq9bpdf6",
+      "facilityId": "grossfeld-3",
+      "parts": [
+        1
+      ],
+      "totalParts": 1,
+      "team": "U19",
+      "title": "U19 vs. BSC Woffenbach",
+      "startTime": "10:30",
+      "endTime": "12:30",
+      "rrule": "",
+      "rruleStart": "2026-03-14",
+      "rruleEnd": "",
+      "exceptions": [],
+      "cabins": [
+        "kabine-4",
+        "kabine-6"
+      ],
+      "cabinTeams": {
+        "kabine-4": "Woffenbach",
+        "kabine-6": "TSG"
+      },
+      "notes": "",
+      "createdBy": "admin",
+      "createdAt": "2026-03-13T21:52:57.263Z"
     }
   ]
 }
