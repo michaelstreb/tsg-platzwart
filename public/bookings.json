@@ -174,6 +174,26 @@
       "notes": "",
       "createdBy": "admin",
       "createdAt": "2026-03-13T16:10:15.971Z"
+    },
+    {
+      "id": "b-mmpe0ifshhdn",
+      "facilityId": "grossfeld-2",
+      "parts": [
+        1
+      ],
+      "totalParts": 1,
+      "team": "F-Jugend",
+      "title": "Training F-Jugend",
+      "startTime": "22:00",
+      "endTime": "23:00",
+      "rrule": "",
+      "rruleStart": "2026-03-13",
+      "rruleEnd": "",
+      "exceptions": [],
+      "cabins": [],
+      "notes": "",
+      "createdBy": "admin",
+      "createdAt": "2026-03-13T21:06:54.424Z"
     }
   ]
 }
