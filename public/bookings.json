@@ -1,28 +1,6 @@
 {
   "bookings": [
     {
-      "id": "b-mmpe3zv2ocp6",
-      "facilityId": "grossfeld-3",
-      "parts": [
-        2
-      ],
-      "totalParts": 2,
-      "team": "U9",
-      "title": "Training U9",
-      "startTime": "22:00",
-      "endTime": "23:00",
-      "rrule": "",
-      "rruleStart": "2026-03-13",
-      "rruleEnd": "",
-      "exceptions": [],
-      "cabins": [
-        "kabine-5"
-      ],
-      "notes": "",
-      "createdBy": "admin",
-      "createdAt": "2026-03-13T21:09:36.974Z"
-    },
-    {
       "id": "b-mmpe5yp0kc64",
       "facilityId": "grossfeld-3",
       "parts": [
