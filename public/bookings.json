@@ -1,28 +1,6 @@
 {
   "bookings": [
     {
-      "id": "b-002",
-      "facilityId": "grossfeld-1",
-      "parts": [
-        2
-      ],
-      "totalParts": 2,
-      "team": "U17",
-      "title": "Training U17",
-      "startTime": "17:00",
-      "endTime": "19:00",
-      "rrule": "FREQ=WEEKLY;BYDAY=TU",
-      "rruleStart": "2026-03-03",
-      "rruleEnd": "2026-06-30",
-      "exceptions": [],
-      "cabins": [
-        "kabine-3"
-      ],
-      "notes": "",
-      "createdBy": "admin1",
-      "createdAt": "2026-03-01T08:00:00Z"
-    },
-    {
       "id": "b-003",
       "facilityId": "grossfeld-2",
       "parts": [
