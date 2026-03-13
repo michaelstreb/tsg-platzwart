@@ -4,14 +4,18 @@ Mobilfreundliche Webanwendung zur Platzbelegung für Fußballvereine. Trainer se
 
 ## Features
 
-- **Kartenansicht** — SVG-Draufsicht der Sportanlage mit Echtzeit-Belegung und Zeitschieber
-- **Wochenansicht** — Zeitraster mit farbigen Buchungsblöcken (Desktop-optimiert)
-- **Tagesansicht** — Pro-Anlage-Darstellung mit Swipe-Navigation (Mobile-optimiert)
+- **Dashboard** — Kombinierte Karte + Tagesagenda für öffentliche Displays (Tablet an der Wand, Vereinswebsite)
+- **Kartenansicht** — SVG-Draufsicht der Sportanlage mit Echtzeit-Belegung, Zeitschieber und "nächste Belegung"-Anzeige für freie Plätze
+- **Wochenansicht** — Zeitraster mit farbigen Buchungsblöcken, Titel, Feldteile, Wiederholungs-Indikator und Now-Line (Desktop-optimiert)
+- **Tagesansicht** — Agenda-Layout mit Facility-Karten, aktive Buchungen hervorgehoben, Swipe-Navigation (Mobile-optimiert)
+- **Team-Farblegende** — Automatische Anzeige der aktiven Teams mit Farbpunkten
+- **Anlagentyp-Labels** — Rasen/Kunstrasen/Halle in Filtern und Tagesansicht
 - **Wiederkehrende Termine** — Serienbuchungen nach iCal-Standard (z.B. "jeden Di + Do")
 - **Feldteilung** — Plätze in Hälften (quer) oder Quadranten (2x2) aufteilen
 - **Konflikterkennung** — Automatische Warnung bei Überlappungen (berücksichtigt Wochentage, Zeiträume und Feldteile)
 - **Mannschaftsverwaltung** — Teams mit Farben, aktivierbar/deaktivierbar
-- **Kabinenverwaltung** — Kabinen können Buchungen zugeordnet werden
+- **Kabinenverwaltung** — Kabinen mit optionaler Team-Zuordnung pro Kabine (z.B. Gegner)
+- **Auto-Refresh** — Automatische Aktualisierung alle 5 Minuten + bei Tab-Wechsel
 - **Druckansicht** — CSS für Aushang am Schwarzen Brett
 - **PWA** — Auf dem Homescreen installierbar
 
@@ -34,7 +38,7 @@ Benutzer (anonym)          Admins (Nextcloud-Login)
 
 | Schicht          | Technologie      | Zweck                                      |
 |------------------|------------------|---------------------------------------------|
-| Frontend         | Preact + Vite    | ~94 kB JS Bundle, schnell, komponentenbasiert |
+| Frontend         | Preact + Vite    | ~102 kB JS Bundle, schnell, komponentenbasiert |
 | Hosting          | GitHub Pages     | Kostenlos, HTTPS, CI/CD via GitHub Actions   |
 | Datenspeicherung | GitHub Repo      | bookings.json wird per API committet         |
 | Authentifizierung| Nextcloud        | Admin-Login gegen bestehende Nextcloud-User  |
@@ -214,6 +218,7 @@ Teams werden im Browser (localStorage) verwaltet und können im Admin-Bereich un
 | `rruleEnd`    | `string`         | Enddatum `YYYY-MM-DD` (leer = unbegrenzt)        |
 | `exceptions`  | `string[]`       | Ausfalldaten `YYYY-MM-DD`                         |
 | `cabins`      | `string[]`       | Zugeordnete Kabinen-IDs                           |
+| `cabinTeams`  | `object`         | Team pro Kabine, z.B. `{ "kabine-1": "Gegner FC" }` (optional) |
 | `notes`       | `string`         | Freitext-Notiz                                    |
 | `createdBy`   | `string`         | Benutzername                                      |
 | `createdAt`   | `string`         | ISO-Zeitstempel                                   |
@@ -242,7 +247,7 @@ Konflikte sind Warnungen — Buchungen können nach Bestätigung trotzdem gespei
 ```
 src/
 ├── main.jsx                     Einstiegspunkt
-├── app.jsx                      Haupt-App mit State-Management
+├── app.jsx                      Haupt-App mit State-Management + Auto-Refresh
 ├── config.js                    GitHub + Nextcloud Konfiguration
 ├── api/
 │   ├── auth.js                  Login gegen Nextcloud OCS API
@@ -254,19 +259,20 @@ src/
 │   └── recurrence.js            RRule-Expansion für Serientermine
 ├── components/
 │   ├── AdminLogin.jsx           Login-Dialog (Nextcloud)
-│   ├── BookingBlock.jsx         Farbiger Buchungsblock
+│   ├── BookingBlock.jsx         Farbiger Buchungsblock (Titel, Feldteile, Kabinen, Repeat)
 │   ├── BookingDetail.jsx        Detail-Drawer
-│   ├── BookingForm.jsx          Buchungsformular
+│   ├── BookingForm.jsx          Buchungsformular (Konflikte, Feldteile, Kabinen-Teams)
 │   ├── BookingList.jsx          Admin-Buchungsliste
-│   ├── DayView.jsx              Mobile Tagesansicht
-│   ├── FacilityFilter.jsx       Anlagen-Filter
+│   ├── DayView.jsx              Tagesansicht (Agenda-Layout mit Facility-Karten)
+│   ├── FacilityFilter.jsx       Anlagen-Filter mit Typ-Labels
 │   ├── FieldPartPicker.jsx      Feldteil-Wähler (Ganz/Hälften/Quadranten)
-│   ├── Header.jsx               Navigation + Datumswahl
-│   ├── MapOverlay.jsx           SVG-Overlays
-│   ├── MapView.jsx              Kartenansicht
+│   ├── Header.jsx               Navigation + Datumswahl + Dashboard-Tab
+│   ├── MapOverlay.jsx           SVG-Overlays (aktuelle + nächste Belegung)
+│   ├── MapView.jsx              Kartenansicht (Auto-Update, nächste Belegung)
+│   ├── TeamLegend.jsx           Team-Farblegende
 │   ├── TeamManager.jsx          Mannschaftsverwaltung
 │   ├── TimeSlider.jsx           Zeitschieber
-│   └── WeekView.jsx             Wochenansicht
+│   └── WeekView.jsx             Wochenansicht (Now-Line, Titel, Feldteile)
 ├── styles/
 │   ├── main.css                 Basis, Header, CSS-Variablen
 │   ├── grid.css                 Wochen-/Tagesraster

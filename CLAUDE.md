@@ -38,9 +38,24 @@ Preact + Vite SPA, gehostet auf GitHub Pages, Daten in `public/bookings.json` (p
 - `src/api/auth.js` — Admin-Passwort-Verifizierung (SHA-256)
 - `src/models/booking.js` — Konflikterkennung mit Quadranten-Normalisierung
 - `src/models/teams.js` — Team-Datenmodell mit active-Flag und localStorage
-- `src/components/BookingForm.jsx` — Komplexeste Komponente (Konflikte, Wochentage, Feldteile)
+- `src/components/BookingForm.jsx` — Komplexeste Komponente (Konflikte, Wochentage, Feldteile, Kabinen-Teams)
+- `src/components/MapView.jsx` — Kartenansicht mit Auto-Update und "nächste Belegung"-Logik
+- `src/components/TeamLegend.jsx` — Farblegende der aktiven Teams
 - `public/facilities.json` — Anlagendefinitionen (wird vom Verein angepasst)
 - `public/bookings.json` — Buchungsdaten (wird per GitHub API aktualisiert)
+
+## Views
+
+- **Dashboard** (`dashboard`) — Kombiniert Karte + Tagesagenda, ohne Filter/Slider (für öffentliche Displays)
+- **Karte** (`map`) — SVG-Draufsicht mit Zeitschieber, Anlagen-/Team-Filter
+- **Woche** (`week`) — Zeitraster mit farbigen Buchungsblöcken, Now-Line
+- **Tag** (`day`) — Agenda-Layout mit Facility-Karten und Buchungsliste
+- **Liste** (`list`) — Admin: Tabelle aller Buchungen
+- **Teams** (`teams`) — Admin: Mannschaftsverwaltung
+
+## Kabinen-Teams
+
+Buchungen können Kabinen zuweisen (`cabins`-Array). Pro Kabine kann optional ein eigenes Team angegeben werden (`cabinTeams`-Objekt, z.B. `{ "kabine-1": "Gegner FC" }`). Fehlt der Eintrag, gilt das Hauptteam der Buchung.
 
 ## Feldteilung
 
