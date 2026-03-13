@@ -41,6 +41,12 @@ export function Header({ view, onViewChange, selectedDate, onDateChange, onRefre
 
       <nav class="view-tabs">
         <button
+          class={`tab ${view === 'dashboard' ? 'tab--active' : ''}`}
+          onClick={() => onViewChange('dashboard')}
+        >
+          Dashboard
+        </button>
+        <button
           class={`tab ${view === 'map' ? 'tab--active' : ''}`}
           onClick={() => onViewChange('map')}
         >

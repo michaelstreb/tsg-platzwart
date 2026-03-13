@@ -235,6 +235,12 @@ body {
   flex-shrink: 0;
 }
 
+/* Dashboard View */
+.dashboard-view {
+  display: flex;
+  flex-direction: column;
+}
+
 /* Main Content */
 .main-content {
   padding: 0;

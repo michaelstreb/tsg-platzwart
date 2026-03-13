@@ -18,7 +18,7 @@ export function App() {
   const [facilities, setFacilities] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [teams, setTeams] = useState(() => loadTeams());
-  const [view, setView] = useState('map');
+  const [view, setView] = useState('dashboard');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [hiddenFacilities, setHiddenFacilities] = useState(new Set());
@@ -97,7 +97,7 @@ export function App() {
   const handleLogout = () => {
     clearCredentials();
     setAdmin(false);
-    setView(prev => (prev === 'list' || prev === 'teams') ? 'map' : prev);
+    setView(prev => (prev === 'list' || prev === 'teams') ? 'dashboard' : prev);
   };
 
   const handleSaveBooking = async (booking) => {
@@ -177,6 +177,25 @@ export function App() {
       {error && <div class="error-banner">{error}</div>}
 
       <main class="main-content">
+        {view === 'dashboard' && (
+          <div class="dashboard-view">
+            <MapView
+              facilities={visibleFacilities}
+              bookings={bookings}
+              teams={teams}
+              selectedDate={selectedDate}
+              onSelectBooking={setSelectedBooking}
+            />
+            <DayView
+              facilities={visibleFacilities}
+              bookings={bookings}
+              teams={teams}
+              selectedDate={selectedDate}
+              onSelectBooking={setSelectedBooking}
+              onDateChange={setSelectedDate}
+            />
+          </div>
+        )}
         {view === 'map' && (
           <MapView
             facilities={visibleFacilities}
