@@ -39,7 +39,7 @@ function getCabinLabel(b, facilities) {
   return cabins.map(id => {
     const name = facilities?.find(f => f.id === id)?.name;
     if (!name) return null;
-    const short = name.replace(/^Kabine\s*/, 'K');
+    const short = name;
     const assignedTeam = b.cabinTeams?.[id];
     return assignedTeam ? `${short} (${assignedTeam})` : short;
   }).filter(Boolean).join(', ');

@@ -73,7 +73,7 @@ export function MapOverlay({ facility, bookings, teams, onSelectBooking }) {
       )}
       {isCabin && (
         <LabelWithShadow x={x + width / 2} y={y - 0.5} className="map-label-sm">
-          {name.replace('Kabine ', 'K')}
+          {name}
         </LabelWithShadow>
       )}
     </g>

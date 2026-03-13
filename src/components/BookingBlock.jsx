@@ -22,7 +22,7 @@ function formatCabinLabel(booking, facilities) {
     const name = facilities?.find(f => f.id === id)?.name;
     if (!name) return null;
     // "Kabine 1" → "K1", andere Namen kürzen
-    const short = name.replace(/^Kabine\s*/, 'K');
+    const short = name;
     const assignedTeam = booking.cabinTeams?.[id];
     return assignedTeam ? `${short} (${assignedTeam})` : short;
   }).filter(Boolean).join(', ');
