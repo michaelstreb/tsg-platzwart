@@ -116,6 +116,7 @@ export function WeekView({ facilities, bookings, teams, selectedDate, onSelectBo
                       key={`${b.id}-${di}`}
                       booking={b}
                       teams={teams}
+                      facilities={facilities}
                       style={{ top: `${top}%`, height: `${height}%` }}
                       onClick={() => onSelectBooking(b)}
                     />

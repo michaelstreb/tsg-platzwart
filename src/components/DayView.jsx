@@ -80,6 +80,7 @@ export function DayView({ facilities, bookings, teams, selectedDate, onSelectBoo
                   key={b.id}
                   booking={b}
                   teams={teams}
+                  facilities={facilities}
                   style={{ top: `${top}%`, height: `${height}%` }}
                   onClick={() => onSelectBooking(b)}
                   compact={false}
