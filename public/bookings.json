@@ -19,6 +19,10 @@
         "kabine-3",
         "kabine-5"
       ],
+      "cabinTeams": {
+        "kabine-3": "Kleinschwarzenlohe",
+        "kabine-5": "U23"
+      },
       "notes": "",
       "createdBy": "admin",
       "createdAt": "2026-03-13T21:20:09.123Z"
