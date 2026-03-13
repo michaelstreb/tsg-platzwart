@@ -5,7 +5,7 @@ let githubSha = null;
 // --- Local ---
 
 async function fetchLocal(filename) {
-  const resp = await fetch(`/${filename}`);
+  const resp = await fetch(`${import.meta.env.BASE_URL}${filename}`);
   if (!resp.ok) throw new Error(`Failed to load ${filename}`);
   return resp.json();
 }

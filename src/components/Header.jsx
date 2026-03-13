@@ -21,7 +21,7 @@ export function Header({ view, onViewChange, selectedDate, onDateChange, onRefre
     <header class="header">
       <div class="header-top">
         <div class="header-brand">
-          <img src="/logo.png" alt="" class="header-logo" onError={(e) => e.target.style.display = 'none'} />
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="" class="header-logo" onError={(e) => e.target.style.display = 'none'} />
           <h1 class="header-title">Platzwart</h1>
         </div>
         <div class="header-actions">

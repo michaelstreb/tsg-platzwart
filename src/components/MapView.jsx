@@ -20,7 +20,7 @@ export function MapView({ facilities, bookings, teams, selectedDate, onSelectBoo
       setImgSize({ w: img.naturalWidth, h: img.naturalHeight });
     };
     img.onerror = () => setHasSatellite(false);
-    img.src = '/satellite.jpg';
+    img.src = `${import.meta.env.BASE_URL}satellite.jpg`;
   }, []);
 
   const activeBookings = useMemo(() => {
@@ -75,7 +75,7 @@ export function MapView({ facilities, bookings, teams, selectedDate, onSelectBoo
         >
           {hasSatellite ? (
             <image
-              href="/satellite.jpg"
+              href={`${import.meta.env.BASE_URL}satellite.jpg`}
               x="0" y="0"
               width={vbWidth} height={vbHeight}
               preserveAspectRatio="xMidYMid slice"
